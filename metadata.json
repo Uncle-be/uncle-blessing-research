@@ -1,0 +1,8 @@
+{
+  "name": "Uncle Blessing Research Institute",
+  "description": "Premium academic and market research services specializing in data-driven insights and strategic growth.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
