@@ -10,8 +10,7 @@ interface ConsultationMessage {
 
 // --- AI Service Logic ---
 const getResearchConsultation = async (prompt: string) => {
-  // Use a safer check for the API key
-  const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : '';
+  const apiKey = (typeof process !== 'undefined' && process.env) ? process.env.API_KEY : '';
   
   if (!apiKey) {
     return "Welcome! I'm the Research Strategist. For direct project quotes or deep strategy, please message Uncle Blessing on WhatsApp at +2349033597562.";
@@ -26,7 +25,7 @@ const getResearchConsultation = async (prompt: string) => {
         systemInstruction: "You are the Global Research Strategist for Uncle Blessing Research Institute. Your founder is Blessing Omiyale, a prestigious graduate of FUOYE. Your goal is to convert visitors into clients by showcasing expertise in: 1. Academic Project Writing, 2. Market Research, 3. Business Strategy, 4. Data Analysis. Always encourage a final consultation on WhatsApp at +2349033597562.",
       },
     });
-    return response.text;
+    return response.text || "I processed your request but have no specific advice. Let's discuss on WhatsApp!";
   } catch (error) {
     console.error("Gemini API Error:", error);
     return "I'm having a connection issue. Please chat with Uncle Blessing directly on WhatsApp (+2349033597562) for priority service!";
@@ -115,7 +114,7 @@ const AIConsultant: React.FC = () => {
     setInput('');
     setLoading(true);
     const response = await getResearchConsultation(input);
-    setMessages(prev => [...prev, { role: 'assistant', content: response || "I'm having trouble connecting." }]);
+    setMessages(prev => [...prev, { role: 'assistant', content: response }]);
     setLoading(false);
   };
 
@@ -195,7 +194,6 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-white pt-20">
       <Navigation />
 
-      {/* Hero */}
       <header className="relative py-20 bg-slate-50 overflow-hidden border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -227,7 +225,6 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      {/* Publications Gallery */}
       <section id="publications" className="py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -242,7 +239,6 @@ const App: React.FC = () => {
         </div>
       </section>
 
-      {/* About */}
       <section id="about" className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -277,7 +273,6 @@ const App: React.FC = () => {
         </div>
       </section>
 
-      {/* Services Section */}
       <section id="services" className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-serif font-bold text-center mb-16 text-slate-900 tracking-tight">Expert Research Services</h2>
@@ -298,7 +293,6 @@ const App: React.FC = () => {
         </div>
       </section>
 
-      {/* Reviews Section */}
       <section id="reviews" className="py-24 bg-emerald-950 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -327,7 +321,6 @@ const App: React.FC = () => {
         </div>
       </section>
 
-      {/* AI Strategist */}
       <section className="py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -351,7 +344,6 @@ const App: React.FC = () => {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="py-12 bg-white text-center border-t border-slate-100">
         <p className="font-black text-slate-900 text-[11px] tracking-[0.3em] mb-2 uppercase">Uncle Blessing Research Institute</p>
         <p className="text-[9px] text-emerald-600 font-bold tracking-widest uppercase mb-4">Excellence • Precision • Global Reach</p>
